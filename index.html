@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://api.github.com; script-src 'sha256-1MhKoWroN/vRLvqfGWpTzk9lvEYi5xFWHJ7o6Js/3wg='; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#4338ca">
+<title>Kelime Koçu – Almanca ve İngilizce kelime öğrenme uygulaması</title>
+<meta name="description" content="Kelime Koçu, Almanca ve İngilizce kelimeleri öğrenmenizi ve unutmadan akılda tutmanızı sağlayan Android uygulamasıdır. Türkçe arayüz.">
+<style>
+  :root{
+    --bg:#f7f8fc;--surface:#fff;--text:#14172b;--muted:#5a6079;--line:#e3e6f1;
+    --brand:#4338ca;--brand-d:#3730a3;--brand-l:#eef0ff;--accent:#0ea5a4;--warn:#b45309;--warn-bg:#fff7ea;
+    --shadow:0 1px 2px rgba(20,23,43,.05),0 8px 24px rgba(20,23,43,.06)
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#0d1020;--surface:#161a30;--text:#eef0fa;--muted:#a1a7c4;--line:#262b49;
+    --brand:#7c83ff;--brand-d:#9aa0ff;--brand-l:#1d2245;--accent:#2dd4bf;--warn:#fbbf24;--warn-bg:#241d10;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)}}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{line-height:1.2;margin:0;letter-spacing:-.02em}
+  p{margin:0 0 12px}
+  a{color:var(--brand)}
+
+  /* Üst bar */
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem}
+  .brand svg{width:34px;height:34px}
+  .nav a.link{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:500}
+  .nav a.link:hover{color:var(--text)}
+
+  /* Giriş */
+  .hero{padding:48px 0 64px;text-align:center}
+  .eyebrow{display:inline-block;background:var(--brand-l);color:var(--brand);font-weight:600;font-size:.85rem;padding:6px 14px;border-radius:99px;margin-bottom:20px}
+  h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;margin-bottom:18px}
+  h1 span{color:var(--brand)}
+  .lead{font-size:1.15rem;color:var(--muted);max-width:620px;margin:0 auto 32px}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:var(--brand);color:#fff;text-decoration:none;font-weight:600;font-size:1.05rem;padding:16px 32px;border-radius:12px;box-shadow:0 6px 18px rgba(67,56,202,.3);transition:background .15s,transform .15s}
+  .btn:hover,.btn:focus-visible{background:var(--brand-d);transform:translateY(-1px)}
+  .btn svg{width:20px;height:20px}
+  .meta{color:var(--muted);font-size:.9rem;margin-top:14px;min-height:1.4em}
+  .meta a{color:var(--muted)}
+  .langs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);padding:7px 14px;border-radius:99px;font-size:.9rem;font-weight:500}
+  .pill i{width:8px;height:8px;border-radius:50%;background:var(--accent);display:block}
+
+  /* Bölümler */
+  section{padding:56px 0}
+  .alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 36px}
+  .sec-head h2{font-size:clamp(1.6rem,4vw,2.1rem);margin-bottom:10px}
+  .sec-head p{color:var(--muted);margin:0}
+
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+  .alt .card{background:var(--bg);box-shadow:none}
+  .icon{width:44px;height:44px;border-radius:12px;background:var(--brand-l);color:var(--brand);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .icon svg{width:22px;height:22px}
+  .card h3{font-size:1.05rem;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:.95rem;margin:0}
+
+  /* Uyarı kutusu */
+  .callout{display:flex;gap:16px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:14px;padding:22px 24px;max-width:760px;margin:0 auto}
+  .callout svg{flex:none;width:24px;height:24px;color:var(--warn);margin-top:2px}
+  .callout h3{font-size:1.1rem;margin-bottom:6px}
+  .callout p{color:var(--muted);margin:0}
+  .callout p+p{margin-top:8px}
+
+  /* Adımlar */
+  .steps{list-style:none;margin:0 auto;padding:0;max-width:640px;counter-reset:s}
+  .steps li{counter-increment:s;position:relative;padding:0 0 22px 56px}
+  .steps li:last-child{padding-bottom:0}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .steps li::after{content:"";position:absolute;left:18px;top:42px;bottom:4px;width:2px;background:var(--line)}
+  .steps li:last-child::after{display:none}
+  .steps b{display:block;margin-bottom:2px}
+  .steps span{color:var(--muted);font-size:.95rem}
+
+  /* SSS */
+  .faq{max-width:700px;margin:0 auto}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+  summary{cursor:pointer;padding:16px 20px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--brand);font-size:1.3rem;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{padding:0 20px 18px;color:var(--muted);margin:0}
+
+  footer{padding:36px 0 48px;text-align:center;color:var(--muted);font-size:.88rem}
+  footer p{margin:0 0 6px}
+  :focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Ana menü">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#4338ca"/><path d="M11 13.5c0-1 .8-1.8 1.8-1.8H19c1 0 1.8.4 2.5 1 .7-.6 1.5-1 2.5-1h3.2c1 0 1.8.8 1.8 1.8v13c0 .6-.6 1-1.2.8-.5-.2-1.1-.3-1.6-.3H24c-1 0-1.8.5-2.3 1.3-.2.3-.7.3-.9 0-.5-.8-1.3-1.3-2.3-1.3h-3.3c-.5 0-1.1.1-1.6.3-.6.2-1.2-.2-1.2-.8v-13Z" fill="#fff"/></svg>
+      Kelime Koçu
+    </div>
+    <a class="link" href="#kurulum">Kurulum</a>
+  </nav>
+
+  <header class="hero">
+    <span class="eyebrow">Android için kelime öğrenme uygulaması</span>
+    <h1>Kelimeleri öğren,<br><span>unutmadan akılda tut.</span></h1>
+    <p class="lead">Kelime Koçu, Almanca ve İngilizce kelimeleri öğrenmenize ve doğru zamanda tekrar ederek kalıcı hale getirmenize yardımcı olur.</p>
+    <a class="btn" id="dl" href="https://github.com/kelimekocu2026/Kelime-kocu-indir/releases/latest/download/Kelime-Kocu.apk" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>
+      Android için indir
+    </a>
+    <p class="meta" id="ver">Android cihazlar için APK dosyası</p>
+    <div class="langs">
+      <span class="pill"><i></i>Almanca</span>
+      <span class="pill"><i></i>İngilizce</span>
+      <span class="pill"><i></i>Türkçe arayüz</span>
+    </div>
+  </header>
+</div>
+
+<section class="alt" id="hakkinda">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Uygulama hakkında</h2>
+      <p>Tek bir amaca odaklanır: dilin kelimelerini öğretmek ve öğrendiklerinizi unutmamanızı sağlamak.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+        <h3>Kelime öğrenme</h3>
+        <p>Yeni kelimeleri Türkçe karşılıklarıyla birlikte öğrenin.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div>
+        <h3>Aralıklı tekrar</h3>
+        <p>Tekrar bölümü, öğrendiğiniz kelimeleri unutmadan önce karşınıza çıkarır.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <h3>İki dil</h3>
+        <p>Almanca ve İngilizce için ayrı profiller.</p>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+        <h3>Türkçe arayüz</h3>
+        <p>Menüler ve açıklamalar tamamen Türkçedir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="callout" role="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+      <div>
+        <h3>Bu uygulama dil öğretmez, kelime öğretir</h3>
+        <p>Kelime Koçu bir dil kursu değildir; gramer dersi ya da konuşma pratiği sunmaz. Amacı, bir dilin kelimelerini öğretmek ve öğrenilenlerin kalıcı olmasını sağlamaktır.</p>
+        <p>Dil bilgisini bir kurstan, kitaptan ya da okuldan edinip kelime dağarcığını geliştirmek isteyenler için tasarlanmıştır.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="kurulum">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Nasıl kurulur?</h2>
+      <p>Uygulama Google Play dışında dağıtıldığı için kurulum birkaç adım içerir.</p>
+    </div>
+    <ol class="steps">
+      <li><b>APK dosyasını indirin</b><span>Yukarıdaki “Android için indir” düğmesine dokunun.</span></li>
+      <li><b>Yüklemeye izin verin</b><span>Telefon uyarı verirse, tarayıcınız veya dosya yöneticiniz için “Bu kaynaktan yüklemeye izin ver” seçeneğini açın.</span></li>
+      <li><b>Kurulumu tamamlayın</b><span>İndirilen dosyaya dokunun ve “Yükle” seçeneğini onaylayın.</span></li>
+      <li><b>İzni kapatın (isteğe bağlı)</b><span>Kurulumdan sonra bu izni güvenlik için tekrar kapatabilirsiniz.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="sss">
+  <div class="wrap">
+    <div class="sec-head"><h2>Sık sorulan sorular</h2></div>
+    <div class="faq">
+      <details>
+        <summary>Telefonum neden “zararlı olabilir” uyarısı veriyor?</summary>
+        <p>Android, Google Play dışından indirilen her uygulama dosyası için bu genel uyarıyı gösterir. Uygulamanın zararlı olduğu anlamına gelmez; yalnızca kaynağın Play Store olmadığını bildirir.</p>
+      </details>
+      <details>
+        <summary>Kelime Koçu dil öğretir mi?</summary>
+        <p>Hayır. Uygulama gramer dersi ya da konuşma pratiği sunmaz; dilin kelimelerini öğretir ve tekrar ettirir.</p>
+      </details>
+      <details>
+        <summary>Hangi dilleri destekliyor?</summary>
+        <p>Almanca ve İngilizce kelimeler için ayrı profiller bulunur. Arayüz Türkçedir.</p>
+      </details>
+      <details>
+        <summary>Yeni sürümü nasıl alırım?</summary>
+        <p>Bu sayfa her zaman en güncel sürümü sunar. Yeni sürümü indirip mevcut uygulamanın üzerine kurabilirsiniz.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>Kelime Koçu</b></p>
+    <p>Bu sayfa yalnızca statik içerik barındırır ve ziyaretçilerden veri toplamaz.</p>
+    <p><a href="https://github.com/kelimekocu2026/Kelime-kocu-indir/releases" rel="noopener noreferrer">Tüm sürümler</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+var REPO='kelimekocu2026/Kelime-kocu-indir';
+var PREFIX='https://github.com/'+REPO+'/releases/download/';
+var btn=document.getElementById('dl');
+fetch('https://api.github.com/repos/'+REPO+'/releases/latest',{headers:{'Accept':'application/vnd.github+json'}})
+.then(function(r){if(!r.ok)throw 0;return r.json();})
+.then(function(rel){
+  var a=(rel.assets||[]).filter(function(x){return /\.apk$/i.test(x.name)&&String(x.browser_download_url).indexOf(PREFIX)===0;})[0];
+  if(!a)return;
+  btn.href=a.browser_download_url;
+  document.getElementById('ver').textContent='Güncel sürüm: '+(rel.name||rel.tag_name)+' · '+(a.size/1048576).toFixed(1)+' MB';
+}).catch(function(){});
+})();
+</script>
+</body>
+</html>
