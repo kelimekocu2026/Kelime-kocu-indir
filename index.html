@@ -3,130 +3,224 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://api.github.com; script-src 'sha256-1MhKoWroN/vRLvqfGWpTzk9lvEYi5xFWHJ7o6Js/3wg='; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://api.github.com; script-src 'sha256-4sQHequ5JFchX0E6gYNvJt+albWta7KhSMSfaAnBLsU='; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#4338ca">
 <title>Kelime Koçu – Almanca ve İngilizce kelime öğrenme uygulaması</title>
 <meta name="description" content="Kelime Koçu, Almanca ve İngilizce kelimeleri öğrenmenizi ve unutmadan akılda tutmanızı sağlayan Android uygulamasıdır. Türkçe arayüz.">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 <style>
   :root{
-    --bg:#f7f8fc;--surface:#fff;--text:#14172b;--muted:#5a6079;--line:#e3e6f1;
-    --brand:#4338ca;--brand-d:#3730a3;--brand-l:#eef0ff;--accent:#0ea5a4;--warn:#b45309;--warn-bg:#fff7ea;
-    --shadow:0 1px 2px rgba(20,23,43,.05),0 8px 24px rgba(20,23,43,.06)
+    --bg:#f6f7fd;--surface:#fff;--text:#12152b;--muted:#586079;--line:#e2e5f2;
+    --brand:#4f46e5;--brand-d:#4338ca;--brand-l:#eceeff;--accent:#14b8a6;--pink:#ec4899;
+    --warn:#b45309;--warn-bg:#fff7ea;
+    --shadow:0 1px 2px rgba(18,21,43,.05),0 10px 30px rgba(18,21,43,.07);
+    --hero:linear-gradient(160deg,#eef0ff 0%,#f6f7fd 55%,#e9fbf8 100%)
   }
   @media (prefers-color-scheme:dark){:root{
-    --bg:#0d1020;--surface:#161a30;--text:#eef0fa;--muted:#a1a7c4;--line:#262b49;
-    --brand:#7c83ff;--brand-d:#9aa0ff;--brand-l:#1d2245;--accent:#2dd4bf;--warn:#fbbf24;--warn-bg:#241d10;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)}}
+    --bg:#0c0f20;--surface:#151933;--text:#eef0fb;--muted:#a3a9c6;--line:#252a4a;
+    --brand:#8087ff;--brand-d:#a0a5ff;--brand-l:#1c2147;--accent:#2dd4bf;--pink:#f472b6;
+    --warn:#fbbf24;--warn-bg:#241d10;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.28);
+    --hero:linear-gradient(160deg,#141847 0%,#0c0f20 60%,#0b2326 100%)}}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
-  h1,h2,h3{line-height:1.2;margin:0;letter-spacing:-.02em}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{line-height:1.15;margin:0;letter-spacing:-.025em}
   p{margin:0 0 12px}
   a{color:var(--brand)}
 
+  /* Logo alanı */
+  .logo-slot{display:block;overflow:hidden;border-radius:24%;flex:none;background:var(--brand)}
+  .logo-slot svg,.logo-slot img{display:block;width:100%;height:100%;object-fit:cover}
+  .sm{width:38px;height:38px}
+  .lg{width:92px;height:92px;box-shadow:0 14px 32px rgba(79,70,229,.35);margin-bottom:22px}
+
   /* Üst bar */
   .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem}
-  .brand svg{width:34px;height:34px}
-  .nav a.link{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:500}
-  .nav a.link:hover{color:var(--text)}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.2rem;letter-spacing:-.02em}
+  .nav-links{display:flex;gap:22px}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:.95rem;font-weight:600}
+  .nav-links a:hover{color:var(--text)}
+  @media (max-width:520px){.nav-links a:not(:last-child){display:none}}
 
   /* Giriş */
-  .hero{padding:48px 0 64px;text-align:center}
-  .eyebrow{display:inline-block;background:var(--brand-l);color:var(--brand);font-weight:600;font-size:.85rem;padding:6px 14px;border-radius:99px;margin-bottom:20px}
-  h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;margin-bottom:18px}
-  h1 span{color:var(--brand)}
-  .lead{font-size:1.15rem;color:var(--muted);max-width:620px;margin:0 auto 32px}
-  .btn{display:inline-flex;align-items:center;gap:10px;background:var(--brand);color:#fff;text-decoration:none;font-weight:600;font-size:1.05rem;padding:16px 32px;border-radius:12px;box-shadow:0 6px 18px rgba(67,56,202,.3);transition:background .15s,transform .15s}
-  .btn:hover,.btn:focus-visible{background:var(--brand-d);transform:translateY(-1px)}
+  .hero-bg{background:var(--hero);position:relative;overflow:hidden}
+  .hero-bg::before,.hero-bg::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none}
+  .hero-bg::before{width:340px;height:340px;background:#818cf8;top:-120px;right:-80px}
+  .hero-bg::after{width:300px;height:300px;background:#5eead4;bottom:-140px;left:-100px;opacity:.35}
+  .hero{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:36px 0 84px}
+  @media (max-width:820px){.hero{grid-template-columns:1fr;text-align:center;padding-bottom:64px}.hero .logo-slot.lg{margin-left:auto;margin-right:auto}}
+  .eyebrow{display:inline-block;background:var(--surface);border:1px solid var(--line);color:var(--brand);font-weight:700;font-size:.82rem;letter-spacing:.02em;padding:6px 14px;border-radius:99px;margin-bottom:18px}
+  h1{font-size:clamp(2.3rem,6vw,3.8rem);font-weight:850;margin-bottom:18px}
+  h1 span{background:linear-gradient(90deg,var(--brand),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:1.15rem;color:var(--muted);max-width:540px;margin:0 0 28px}
+  @media (max-width:820px){.lead{margin-left:auto;margin-right:auto}}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--brand),#7c3aed);color:#fff;text-decoration:none;font-weight:700;font-size:1.05rem;padding:16px 30px;border-radius:14px;box-shadow:0 10px 26px rgba(79,70,229,.38);transition:transform .15s,box-shadow .15s}
+  .btn:hover,.btn:focus-visible{transform:translateY(-2px);box-shadow:0 14px 30px rgba(79,70,229,.45)}
   .btn svg{width:20px;height:20px}
-  .meta{color:var(--muted);font-size:.9rem;margin-top:14px;min-height:1.4em}
-  .meta a{color:var(--muted)}
-  .langs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);padding:7px 14px;border-radius:99px;font-size:.9rem;font-weight:500}
+  .meta{color:var(--muted);font-size:.9rem;margin-top:14px;min-height:1.5em}
+  .langs{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  @media (max-width:820px){.langs{justify-content:center}}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);padding:7px 14px;border-radius:99px;font-size:.88rem;font-weight:600}
   .pill i{width:8px;height:8px;border-radius:50%;background:var(--accent);display:block}
 
-  /* Bölümler */
-  section{padding:56px 0}
-  .alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .sec-head{text-align:center;max-width:620px;margin:0 auto 36px}
-  .sec-head h2{font-size:clamp(1.6rem,4vw,2.1rem);margin-bottom:10px}
-  .sec-head p{color:var(--muted);margin:0}
+  /* Telefon maketi */
+  .stage{position:relative;display:flex;justify-content:center}
+  .phone{width:250px;background:#12152b;border-radius:38px;padding:11px;box-shadow:0 30px 60px rgba(18,21,43,.3);transform:rotate(3deg)}
+  @media (max-width:820px){.phone{transform:none}}
+  .screen{background:linear-gradient(170deg,#eef0ff,#fff);border-radius:28px;padding:20px 16px 22px;min-height:400px;display:flex;flex-direction:column;gap:14px;color:#12152b}
+  @media (prefers-color-scheme:dark){.screen{background:linear-gradient(170deg,#1c2147,#151933);color:#eef0fb}}
+  .scr-top{display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;opacity:.65}
+  .fcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 16px;text-align:center;box-shadow:var(--shadow)}
+  .fcard small{display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+  .fcard strong{display:block;font-size:1.7rem;letter-spacing:-.02em}
+  .fcard.ans strong{color:var(--brand)}
+  .bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+  .bar b{display:block;width:68%;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--brand))}
+  .cap{font-size:.72rem;text-align:center;color:var(--muted);margin-top:auto}
+  .float{position:absolute;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 14px;font-weight:700;font-size:.85rem;box-shadow:var(--shadow)}
+  .float.a{top:46px;left:2%;transform:rotate(-5deg)}
+  .float.b{bottom:70px;right:0;transform:rotate(4deg)}
+  @media (max-width:520px){.float.a{left:-2%}.float.b{right:-2%}}
 
-  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+  /* Bölümler */
+  section{padding:70px 0}
+  .alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 42px}
+  .sec-head .tag{display:inline-block;color:var(--brand);font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+  .sec-head h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:12px;font-weight:800}
+  .sec-head p{color:var(--muted);margin:0;font-size:1.05rem}
+
+  .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow);transition:transform .2s}
+  .card:hover{transform:translateY(-3px)}
   .alt .card{background:var(--bg);box-shadow:none}
-  .icon{width:44px;height:44px;border-radius:12px;background:var(--brand-l);color:var(--brand);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-  .icon svg{width:22px;height:22px}
-  .card h3{font-size:1.05rem;margin-bottom:6px}
-  .card p{color:var(--muted);font-size:.95rem;margin:0}
+  .icon{width:48px;height:48px;border-radius:14px;background:var(--brand-l);color:var(--brand);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+  .icon svg{width:24px;height:24px}
+  .card h3{font-size:1.1rem;margin-bottom:8px;font-weight:750}
+  .card p{color:var(--muted);font-size:.96rem;margin:0}
+  .num{font-size:2.4rem;font-weight:850;line-height:1;margin-bottom:12px;background:linear-gradient(135deg,var(--brand),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
 
   /* Uyarı kutusu */
-  .callout{display:flex;gap:16px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:14px;padding:22px 24px;max-width:760px;margin:0 auto}
-  .callout svg{flex:none;width:24px;height:24px;color:var(--warn);margin-top:2px}
-  .callout h3{font-size:1.1rem;margin-bottom:6px}
+  .callout{display:flex;gap:18px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--line);border-left:5px solid var(--warn);border-radius:18px;padding:26px 28px;max-width:800px;margin:0 auto}
+  .callout svg{flex:none;width:28px;height:28px;color:var(--warn);margin-top:2px}
+  .callout h3{font-size:1.2rem;margin-bottom:8px;font-weight:800}
   .callout p{color:var(--muted);margin:0}
   .callout p+p{margin-top:8px}
 
   /* Adımlar */
-  .steps{list-style:none;margin:0 auto;padding:0;max-width:640px;counter-reset:s}
-  .steps li{counter-increment:s;position:relative;padding:0 0 22px 56px}
+  .steps{list-style:none;margin:0 auto;padding:0;max-width:660px;counter-reset:s}
+  .steps li{counter-increment:s;position:relative;padding:0 0 26px 62px}
   .steps li:last-child{padding-bottom:0}
-  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
-  .steps li::after{content:"";position:absolute;left:18px;top:42px;bottom:4px;width:2px;background:var(--line)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--brand),#7c3aed);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(79,70,229,.3)}
+  .steps li::after{content:"";position:absolute;left:20px;top:46px;bottom:4px;width:2px;background:var(--line)}
   .steps li:last-child::after{display:none}
-  .steps b{display:block;margin-bottom:2px}
-  .steps span{color:var(--muted);font-size:.95rem}
+  .steps b{display:block;margin-bottom:2px;font-size:1.05rem}
+  .steps span{color:var(--muted);font-size:.97rem}
 
   /* SSS */
-  .faq{max-width:700px;margin:0 auto}
-  details{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
-  summary{cursor:pointer;padding:16px 20px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+  .faq{max-width:720px;margin:0 auto}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;transition:box-shadow .2s}
+  details[open]{box-shadow:var(--shadow)}
+  summary{cursor:pointer;padding:18px 22px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:14px}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";color:var(--brand);font-size:1.3rem;line-height:1}
+  summary::after{content:"+";color:var(--brand);font-size:1.4rem;line-height:1}
   details[open] summary::after{content:"–"}
-  details p{padding:0 20px 18px;color:var(--muted);margin:0}
+  details p{padding:0 22px 20px;color:var(--muted);margin:0}
 
-  footer{padding:36px 0 48px;text-align:center;color:var(--muted);font-size:.88rem}
+  /* Alt çağrı bandı */
+  .cta{background:linear-gradient(135deg,#4f46e5,#7c3aed 60%,#ec4899);color:#fff;border-radius:28px;padding:54px 28px;text-align:center;position:relative;overflow:hidden}
+  .cta h2{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800;margin-bottom:10px}
+  .cta p{opacity:.92;margin:0 auto 26px;max-width:480px}
+  .cta .btn{background:#fff;color:#4338ca;box-shadow:0 10px 26px rgba(0,0,0,.2)}
+  .cta .meta{color:rgba(255,255,255,.85)}
+
+  footer{padding:40px 0 52px;text-align:center;color:var(--muted);font-size:.9rem}
+  footer .brand{justify-content:center;margin-bottom:12px;color:var(--text)}
   footer p{margin:0 0 6px}
   :focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 
+<div class="hero-bg">
 <div class="wrap">
   <nav class="nav" aria-label="Ana menü">
     <div class="brand">
-      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#4338ca"/><path d="M11 13.5c0-1 .8-1.8 1.8-1.8H19c1 0 1.8.4 2.5 1 .7-.6 1.5-1 2.5-1h3.2c1 0 1.8.8 1.8 1.8v13c0 .6-.6 1-1.2.8-.5-.2-1.1-.3-1.6-.3H24c-1 0-1.8.5-2.3 1.3-.2.3-.7.3-.9 0-.5-.8-1.3-1.3-2.3-1.3h-3.3c-.5 0-1.1.1-1.6.3-.6.2-1.2-.2-1.2-.8v-13Z" fill="#fff"/></svg>
+      <span class="logo-slot sm">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#4f46e5"/><path d="M11 13.5c0-1 .8-1.8 1.8-1.8H19c1 0 1.8.4 2.5 1 .7-.6 1.5-1 2.5-1h3.2c1 0 1.8.8 1.8 1.8v13c0 .6-.6 1-1.2.8-.5-.2-1.1-.3-1.6-.3H24c-1 0-1.8.5-2.3 1.3-.2.3-.7.3-.9 0-.5-.8-1.3-1.3-2.3-1.3h-3.3c-.5 0-1.1.1-1.6.3-.6.2-1.2-.2-1.2-.8v-13Z" fill="#fff"/></svg>
+      </span>
       Kelime Koçu
     </div>
-    <a class="link" href="#kurulum">Kurulum</a>
+    <div class="nav-links">
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#kurulum">Kurulum</a>
+      <a href="#sss">SSS</a>
+    </div>
   </nav>
 
   <header class="hero">
-    <span class="eyebrow">Android için kelime öğrenme uygulaması</span>
-    <h1>Kelimeleri öğren,<br><span>unutmadan akılda tut.</span></h1>
-    <p class="lead">Kelime Koçu, Almanca ve İngilizce kelimeleri öğrenmenize ve doğru zamanda tekrar ederek kalıcı hale getirmenize yardımcı olur.</p>
-    <a class="btn" id="dl" href="https://github.com/kelimekocu2026/Kelime-kocu-indir/releases/latest/download/Kelime-Kocu.apk" rel="noopener noreferrer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>
-      Android için indir
-    </a>
-    <p class="meta" id="ver">Android cihazlar için APK dosyası</p>
-    <div class="langs">
-      <span class="pill"><i></i>Almanca</span>
-      <span class="pill"><i></i>İngilizce</span>
-      <span class="pill"><i></i>Türkçe arayüz</span>
+    <div>
+      <span class="logo-slot lg">
+        <svg viewBox="0 0 40 40" role="img" aria-label="Kelime Koçu simgesi"><rect width="40" height="40" fill="#4f46e5"/><path d="M11 13.5c0-1 .8-1.8 1.8-1.8H19c1 0 1.8.4 2.5 1 .7-.6 1.5-1 2.5-1h3.2c1 0 1.8.8 1.8 1.8v13c0 .6-.6 1-1.2.8-.5-.2-1.1-.3-1.6-.3H24c-1 0-1.8.5-2.3 1.3-.2.3-.7.3-.9 0-.5-.8-1.3-1.3-2.3-1.3h-3.3c-.5 0-1.1.1-1.6.3-.6.2-1.2-.2-1.2-.8v-13Z" fill="#fff"/></svg>
+      </span>
+      <span class="eyebrow">Android için kelime öğrenme uygulaması</span>
+      <h1>Kelimeleri öğren,<br><span>unutmadan akılda tut.</span></h1>
+      <p class="lead">Kelime Koçu, Almanca ve İngilizce kelimeleri öğrenmenize ve doğru zamanda tekrar ederek kalıcı hale getirmenize yardımcı olur.</p>
+      <a class="btn dlbtn" href="https://github.com/kelimekocu2026/Kelime-kocu-indir/releases/latest/download/Kelime-Kocu.apk" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>
+        Android için indir
+      </a>
+      <p class="meta ver">Android cihazlar için APK dosyası</p>
+      <div class="langs">
+        <span class="pill"><i></i>Almanca</span>
+        <span class="pill"><i></i>İngilizce</span>
+        <span class="pill"><i></i>Türkçe arayüz</span>
+      </div>
+    </div>
+
+    <div class="stage" aria-hidden="true">
+      <span class="float a">Almanca 🇩🇪</span>
+      <div class="phone">
+        <div class="screen">
+          <div class="scr-top"><span>Tekrar</span><span>Örnek</span></div>
+          <div class="fcard"><small>Almanca</small><strong>das Haus</strong></div>
+          <div class="fcard ans"><small>Türkçe</small><strong>ev</strong></div>
+          <div class="bar"><b></b></div>
+          <div class="cap">Örnek kelime kartı</div>
+        </div>
+      </div>
+      <span class="float b">İngilizce 🇬🇧</span>
     </div>
   </header>
 </div>
+</div>
 
-<section class="alt" id="hakkinda">
+<section class="alt" id="nasil">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Uygulama hakkında</h2>
-      <p>Tek bir amaca odaklanır: dilin kelimelerini öğretmek ve öğrendiklerinizi unutmamanızı sağlamak.</p>
+      <span class="tag">Nasıl çalışır</span>
+      <h2>Üç adımda kalıcı kelime dağarcığı</h2>
+      <p>Kelime Koçu tek bir amaca odaklanır: kelimeleri öğretmek ve unutturmamak.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="num">1</div><h3>Kelimeyi öğren</h3><p>Yeni kelimelerle Türkçe karşılıklarını birlikte gör ve öğren.</p></div>
+      <div class="card"><div class="num">2</div><h3>Zamanında tekrar et</h3><p>Tekrar bölümü, kelimeleri unutmadan önce karşına çıkarır.</p></div>
+      <div class="card"><div class="num">3</div><h3>Kalıcı hale getir</h3><p>Düzenli tekrarla öğrendiğin kelimeler uzun süre aklında kalır.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="ozellikler">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Özellikler</span>
+      <h2>Sade, odaklı, Türkçe</h2>
+      <p>Gereksiz ayrıntı yok. Kelime öğrenmek için gerekenler var.</p>
     </div>
     <div class="grid">
       <div class="card">
@@ -137,7 +231,7 @@
       <div class="card">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></div>
         <h3>Aralıklı tekrar</h3>
-        <p>Tekrar bölümü, öğrendiğiniz kelimeleri unutmadan önce karşınıza çıkarır.</p>
+        <p>Öğrendiğiniz kelimeler, unutmadan önce yeniden karşınıza çıkar.</p>
       </div>
       <div class="card">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
@@ -153,7 +247,7 @@
   </div>
 </section>
 
-<section>
+<section class="alt">
   <div class="wrap">
     <div class="callout" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
@@ -166,14 +260,15 @@
   </div>
 </section>
 
-<section class="alt" id="kurulum">
+<section id="kurulum">
   <div class="wrap">
     <div class="sec-head">
+      <span class="tag">Kurulum</span>
       <h2>Nasıl kurulur?</h2>
       <p>Uygulama Google Play dışında dağıtıldığı için kurulum birkaç adım içerir.</p>
     </div>
     <ol class="steps">
-      <li><b>APK dosyasını indirin</b><span>Yukarıdaki “Android için indir” düğmesine dokunun.</span></li>
+      <li><b>APK dosyasını indirin</b><span>“Android için indir” düğmesine dokunun.</span></li>
       <li><b>Yüklemeye izin verin</b><span>Telefon uyarı verirse, tarayıcınız veya dosya yöneticiniz için “Bu kaynaktan yüklemeye izin ver” seçeneğini açın.</span></li>
       <li><b>Kurulumu tamamlayın</b><span>İndirilen dosyaya dokunun ve “Yükle” seçeneğini onaylayın.</span></li>
       <li><b>İzni kapatın (isteğe bağlı)</b><span>Kurulumdan sonra bu izni güvenlik için tekrar kapatabilirsiniz.</span></li>
@@ -181,9 +276,9 @@
   </div>
 </section>
 
-<section id="sss">
+<section class="alt" id="sss">
   <div class="wrap">
-    <div class="sec-head"><h2>Sık sorulan sorular</h2></div>
+    <div class="sec-head"><span class="tag">SSS</span><h2>Sık sorulan sorular</h2></div>
     <div class="faq">
       <details>
         <summary>Telefonum neden “zararlı olabilir” uyarısı veriyor?</summary>
@@ -205,9 +300,28 @@
   </div>
 </section>
 
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>Kelimelerini bugün güçlendir</h2>
+      <p>Kelime Koçu'nu indir, kelime dağarcığını her gün biraz büyüt.</p>
+      <a class="btn dlbtn" href="https://github.com/kelimekocu2026/Kelime-kocu-indir/releases/latest/download/Kelime-Kocu.apk" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>
+        Android için indir
+      </a>
+      <p class="meta ver" style="margin-bottom:0"></p>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    <p><b>Kelime Koçu</b></p>
+    <div class="brand">
+      <span class="logo-slot sm">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#4f46e5"/><path d="M11 13.5c0-1 .8-1.8 1.8-1.8H19c1 0 1.8.4 2.5 1 .7-.6 1.5-1 2.5-1h3.2c1 0 1.8.8 1.8 1.8v13c0 .6-.6 1-1.2.8-.5-.2-1.1-.3-1.6-.3H24c-1 0-1.8.5-2.3 1.3-.2.3-.7.3-.9 0-.5-.8-1.3-1.3-2.3-1.3h-3.3c-.5 0-1.1.1-1.6.3-.6.2-1.2-.2-1.2-.8v-13Z" fill="#fff"/></svg>
+      </span>
+      Kelime Koçu
+    </div>
     <p>Bu sayfa yalnızca statik içerik barındırır ve ziyaretçilerden veri toplamaz.</p>
     <p><a href="https://github.com/kelimekocu2026/Kelime-kocu-indir/releases" rel="noopener noreferrer">Tüm sürümler</a></p>
   </div>
@@ -217,15 +331,31 @@
 (function(){
 var REPO='kelimekocu2026/Kelime-kocu-indir';
 var PREFIX='https://github.com/'+REPO+'/releases/download/';
-var btn=document.getElementById('dl');
+var btns=document.querySelectorAll('.dlbtn');
+var vers=document.querySelectorAll('.ver');
 fetch('https://api.github.com/repos/'+REPO+'/releases/latest',{headers:{'Accept':'application/vnd.github+json'}})
 .then(function(r){if(!r.ok)throw 0;return r.json();})
 .then(function(rel){
   var a=(rel.assets||[]).filter(function(x){return /\.apk$/i.test(x.name)&&String(x.browser_download_url).indexOf(PREFIX)===0;})[0];
   if(!a)return;
-  btn.href=a.browser_download_url;
-  document.getElementById('ver').textContent='Güncel sürüm: '+(rel.name||rel.tag_name)+' · '+(a.size/1048576).toFixed(1)+' MB';
+  var i,t='Güncel sürüm: '+(rel.name||rel.tag_name)+' · '+(a.size/1048576).toFixed(1)+' MB';
+  for(i=0;i<btns.length;i++){btns[i].href=a.browser_download_url;}
+  for(i=0;i<vers.length;i++){vers[i].textContent=t;}
 }).catch(function(){});
+
+/* logo.png depoda varsa, yedek simgenin yerine otomatik gösterilir */
+var im=new Image();
+im.onload=function(){
+  var slots=document.querySelectorAll('.logo-slot');
+  for(var i=0;i<slots.length;i++){
+    var img=document.createElement('img');
+    img.src='logo.png';
+    img.alt='Kelime Koçu simgesi';
+    while(slots[i].firstChild){slots[i].removeChild(slots[i].firstChild);}
+    slots[i].appendChild(img);
+  }
+};
+im.src='logo.png';
 })();
 </script>
 </body>
